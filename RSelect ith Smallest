@@ -1,0 +1,45 @@
+import random
+
+def partition(arr, low, high):
+    pivot_index = random.randint(low, high)
+
+    arr[pivot_index], arr[high] = arr[high], arr[pivot_index]
+
+    pivot = arr[high]
+    i = low - 1
+
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+
+    return i + 1
+
+
+def randomized_select(arr, low, high, i):
+    if low == high:
+        return arr[low]
+
+    q = partition(arr, low, high)
+    k = q - low + 1
+
+    if i == k:
+        return arr[q]
+
+    elif i < k:
+        return randomized_select(arr, low, q - 1, i)
+
+    else:
+        return randomized_select(arr, q + 1, high, i - k)
+
+
+arr = list(map(int, input("Enter array elements: ").split()))
+i = int(input("Enter the value of i: "))
+
+if 1 <= i <= len(arr):
+    result = randomized_select(arr, 0, len(arr) - 1, i)
+    print("The", i, "th smallest element is:", result)
+else:
+    print("Invalid value of i")
