@@ -1,0 +1,38 @@
+def bellman_ford(V, edges, source):
+
+    dist = [float('inf')] * V
+    dist[source] = 0
+
+    for _ in range(V - 1):
+
+        for u, v, w in edges:
+
+            if dist[u] != float('inf') and dist[u] + w < dist[v]:
+                dist[v] = dist[u] + w
+
+    for u, v, w in edges:
+
+        if dist[u] != float('inf') and dist[u] + w < dist[v]:
+            print("Graph contains a negative weight cycle.")
+            return
+
+    print("Vertex Distance from Source")
+
+    for i in range(V):
+        print(i, "\t", dist[i])
+
+
+V = int(input("Enter number of vertices: "))
+E = int(input("Enter number of edges: "))
+
+edges = []
+
+print("Enter edges (source destination weight):")
+
+for _ in range(E):
+    u, v, w = map(int, input().split())
+    edges.append((u, v, w))
+
+source = int(input("Enter source vertex: "))
+
+bellman_ford(V, edges, source)
