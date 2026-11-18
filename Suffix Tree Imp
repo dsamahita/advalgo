@@ -1,0 +1,53 @@
+class Node:
+    def __init__(self):
+        self.children = {}
+        self.indexes = []
+
+
+class SuffixTree:
+    def __init__(self, text):
+        self.root = Node()
+        self.text = text + "$"
+
+        self.build_tree()
+
+    def build_tree(self):
+
+        for i in range(len(self.text)):
+
+            current = self.root
+
+            for char in self.text[i:]:
+
+                if char not in current.children:
+                    current.children[char] = Node()
+
+                current = current.children[char]
+                current.indexes.append(i)
+
+    def search(self, pattern):
+
+        current = self.root
+
+        for char in pattern:
+
+            if char not in current.children:
+                return []
+
+            current = current.children[char]
+
+        return current.indexes
+
+
+text = input("Enter text: ")
+
+tree = SuffixTree(text)
+
+pattern = input("Enter pattern to search: ")
+
+result = tree.search(pattern)
+
+if result:
+    print("Pattern found at positions:", result)
+else:
+    print("Pattern not found")
