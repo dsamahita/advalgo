@@ -1,0 +1,74 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+class BST:
+    def insert(self, root, data):
+
+        if root is None:
+            return Node(data)
+
+        if data < root.data:
+            root.left = self.insert(root.left, data)
+
+        elif data > root.data:
+            root.right = self.insert(root.right, data)
+
+        return root
+
+    def search(self, root, key):
+
+        if root is None or root.data == key:
+            return root
+
+        if key < root.data:
+            return self.search(root.left, key)
+
+        return self.search(root.right, key)
+
+    def inorder(self, root):
+
+        if root:
+            self.inorder(root.left)
+            print(root.data, end=" ")
+            self.inorder(root.right)
+
+
+tree = BST()
+root = None
+
+while True:
+
+    print("\n1. Insert")
+    print("2. Search")
+    print("3. Display")
+    print("4. Exit")
+
+    choice = int(input("Enter choice: "))
+
+    if choice == 1:
+        value = int(input("Enter value: "))
+        root = tree.insert(root, value)
+        print("Element inserted")
+
+    elif choice == 2:
+        value = int(input("Enter value to search: "))
+
+        if tree.search(root, value):
+            print("Element found")
+        else:
+            print("Element not found")
+
+    elif choice == 3:
+        print("Inorder traversal:")
+        tree.inorder(root)
+        print()
+
+    elif choice == 4:
+        break
+
+    else:
+        print("Invalid choice")
